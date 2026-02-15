@@ -45,6 +45,7 @@ CREATE TABLE liabilities (
     type VARCHAR(100) NOT NULL,
     balance DECIMAL(15,2) NOT NULL,
     interest_rate DECIMAL(5,2),
+    monthly_payment DECIMAL(15,2),
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
