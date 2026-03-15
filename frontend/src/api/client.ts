@@ -5,21 +5,22 @@ import {
     IncomeResponse,
     MonthlyBalanceSheet,
     ProjectionSummary,
-    RatiosResponse,
+    RatioResponse,
     RetirementAccountRequest,
     RetirementAccountResponse,
     SnapshotResponse,
     UserResponse,
     YearlyBalanceSheet,
-    type UserRequest,
-    type IncomeRequest,
-    type ExpenseRequest,
-    type AssetRequest,
-    type LiabilityResponse,
-    type LiabilityRequest,
-    type LiabilityType,
-    type IncomeAllocationResponse,
-    type IncomeAllocationRequest,
+    UserRequest,
+    IncomeRequest,
+    ExpenseRequest,
+    AssetRequest,
+    LiabilityResponse,
+    LiabilityRequest,
+    AssetType,
+    LiabilityType,
+    IncomeAllocationResponse,
+    IncomeAllocationRequest,
 } from '../types';
 
 const client = axios.create({
@@ -35,7 +36,7 @@ client.interceptors.response.use(
             err.response?.data ||
             err.message ||
             'Something went wrong';
-        return Promise.reject(new Error(typeoff message === 'string' ? message : JSON.stringify(message)));
+        return Promise.reject(new Error(typeof message === 'string' ? message : JSON.stringify(message)));
     }
 );
 
@@ -45,7 +46,7 @@ export const usersApi = {
     getById: (id: number) => client.get<UserResponse>(`/users/${id}`).then((r) => r.data),
     create: (data: UserRequest) => client.post<UserResponse>('/users', data).then((r) => r.data),
     update: (id: number, data: UserRequest) => client.put<UserResponse>(`/users/${id}`, data).then((r) => r.data),
-    delete: (id: number) => client.deletet(`/users/${id}`),
+    delete: (id: number) => client.delete(`/users/${id}`),
 };
 
 // Income
@@ -107,7 +108,7 @@ export const snapshotsApi = {
 
 // Ratios
 export const ratiosApi = {
-    get: (userid: number) => client.get<RatiosResponse>(`/users/${userid}/ratios`).then((r) => r.data),
+    get: (userid: number) => client.get<RatioResponse>(`/users/${userid}/ratios`).then((r) => r.data),
 };
 
 // Balance Sheet
