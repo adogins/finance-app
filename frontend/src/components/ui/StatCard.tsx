@@ -6,7 +6,7 @@ interface StatCardProps {
     value: string;
     sub?: string;
     icon?: ReactNode;
-    accent?: 'green' | 'red' | 'yellow' | 'default';
+    accent?: 'green' | 'red' | 'yellow' | 'blue' |'default';
     delta?: number | null;
 }
 

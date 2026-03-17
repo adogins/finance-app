@@ -116,13 +116,13 @@ export interface RetirementAccountRequest {
 }
 
 // Income Allocations
-export type AlloactionType = 'PERCENT' | 'FIXED';
+export type AllocationType = 'PERCENT' | 'FIXED';
 
 export interface IncomeAllocationResponse {
     id: number;
     userId: number;
     category: string;
-    allocationType: AlloactionType;
+    allocationType: AllocationType;
     allocationValue: number;
     priority: number;
     createdAt: string;
@@ -130,7 +130,7 @@ export interface IncomeAllocationResponse {
 
 export interface IncomeAllocationRequest {
     category: string;
-    allocationType: AlloactionType;
+    allocationType: AllocationType;
     allocationValue: number;
     priority: number;
 }
