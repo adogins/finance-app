@@ -23,7 +23,7 @@ A full-stack personal finance application for tracking income, expenses, assets,
 
 ## Project Structure
 ```
-# Verdn — Personal Finance App
+# Personal Finance App
 
 A full-stack personal finance application for tracking income, expenses, assets, liabilities, retirement savings, and financial health ratios.
 
