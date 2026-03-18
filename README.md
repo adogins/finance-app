@@ -273,6 +273,10 @@ const client = axios.create({
 
 ## Security Notes
 
-- Passwords are hashed with **BCrypt** before storage — plain text passwords are never saved
+- Passwords are hashed with **BCrypt** before storage, plain text passwords are never saved
 - The frontend stores the authenticated user object in `localStorage` for session persistence
-- This app has no JWT tokens or session management — it is intended for local/personal use only and should not be deployed publicly without adding proper authentication middleware
+- This app has no JWT tokens or session management, it is intended for local/personal use only and should not be deployed publicly without adding proper authentication middleware
+
+---
+
+*Personal project built with the assistance of Claude by Anthropic.*
