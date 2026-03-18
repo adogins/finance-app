@@ -17,7 +17,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 256)
     private String email;
 
-    @Column(name = "first_nme", nullable = false, length = 100)
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 100)
@@ -25,6 +25,9 @@ public class User {
 
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
+
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -37,6 +40,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.passwordHash = passwordHash;
     }
 
     public Long getId() {
@@ -59,6 +63,10 @@ public class User {
         return dateOfBirth;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -77,6 +85,10 @@ public class User {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Transient

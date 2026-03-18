@@ -10,6 +10,7 @@ public class UserDto {
         private String firstName;
         private String lastName;
         private LocalDate dateOfBirth;
+        private String password;
 
         public Request() {}
 
@@ -29,6 +30,10 @@ public class UserDto {
             return dateOfBirth;
         }
 
+        public String getPassword() {
+            return password;
+        }
+
         public void setEmail(String email) {
             this.email = email;
         }
@@ -43,6 +48,33 @@ public class UserDto {
 
         public void setDateOfBirth(LocalDate dateOfBirth) {
             this.dateOfBirth = dateOfBirth;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
+    public statuc class LoginRequest {
+        private String email;
+        private String password;
+
+        public LoginRequest() {}
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
     }
 
