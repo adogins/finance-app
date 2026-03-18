@@ -37,7 +37,7 @@ function AppLayout() {
 }
 
 function Root() {
-  const { currentUser } = useAuth();
+  /*const { currentUser } = useAuth();
 
   if (!currentUser) {
     return <AuthPage />;
@@ -45,6 +45,28 @@ function Root() {
 
   return (
     <AppProvider user={currentUser}>
+      <AppLayout />
+    </AppProvider>
+  );
+  */
+
+  const { currentUser } = useAuth();
+
+  // TEMP: skip auth for development
+  const devUser = {
+    id: 1,
+    email: 'test@test.com',
+    firstName: 'Test',
+    lastName: 'User',
+    fullName: 'Test User',
+    dateOfBirth: '1990-01-01',
+    age: 35,
+    ageBracket: '30s',
+    createdAt: '2025-01-01T00:00:00',
+  };
+
+  return (
+    <AppProvider user={devUser}>
       <AppLayout />
     </AppProvider>
   );

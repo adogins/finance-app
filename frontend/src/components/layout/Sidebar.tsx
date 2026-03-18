@@ -46,10 +46,10 @@ export default function Sidebar() {
       <div className="px-5 py-5 border-b border-emerald-900/60">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-            V
+            F
           </div>
           <div>
-            <div className="text-sm font-bold text-emerald-50 tracking-tight">Verdn</div>
+            <div className="text-sm font-bold text-emerald-50 tracking-tight">Finance App</div>
             <div className="text-[10px] text-emerald-600">Personal Finance</div>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function Sidebar() {
       </nav>
  
       <div className="px-5 py-3 border-t border-emerald-900/60">
-        <p className="text-[10px] text-emerald-900">© 2025 Verdn</p>
+        <p className="text-[10px] text-emerald-900">Finance App 2026</p>
       </div>
     </aside>
   );
