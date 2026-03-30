@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.demo.DemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.174 s <<< FAILURE! -- in com.example.demo.DemoApplicationTests
-com.example.demo.DemoApplicationTests -- Time elapsed: 0.174 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.183 s <<< FAILURE! -- in com.example.demo.DemoApplicationTests
+com.example.demo.DemoApplicationTests -- Time elapsed: 0.183 s <<< ERROR!
 java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration by searching packages upwards from the test. You can use @ContextConfiguration, @SpringBootTest(classes=...) or other Spring Test supported mechanisms to explicitly declare the configuration classes to load. Classes annotated with @TestConfiguration are not considered.
 	at org.springframework.util.Assert.state(Assert.java:79)
 	at org.springframework.boot.test.context.SpringBootTestContextBootstrapper.findConfigurationClass(SpringBootTestContextBootstrapper.java:246)
