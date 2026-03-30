@@ -19,7 +19,8 @@ public class RetirementAccountController {
     private final RetirementAccountRepository retirementAccountRepository;
     private final UserRepository userRepository;
 
-    public RetirementAccountController(RetirementAccountRepository retirementAccountRepository, UserRepository userRepository) {
+    public RetirementAccountController(RetirementAccountRepository retirementAccountRepository,
+            UserRepository userRepository) {
         this.retirementAccountRepository = retirementAccountRepository;
         this.userRepository = userRepository;
     }
@@ -38,31 +39,32 @@ public class RetirementAccountController {
     @GetMapping("/{id}")
     public RetirementAccountDto.Response getRetirementAccountById(@PathVariable Long userId, @PathVariable Long id) {
         findUserOrThrow(userId);
-        return toResponse(findAccountOrThrow(id, userId));
+        return toResponse(findRetirementAccountOrThrow(id, userId));
     }
 
     // POST create retirement account
     @PostMapping
-    public ResponseEntity<RetirementAccountDto.Response> createRetirementAccount(@PathVariable Long uerId, @RequestBody RetirementAccountDtop.Request request) {
+    public ResponseEntity<RetirementAccountDto.Response> createRetirementAccount(@PathVariable Long userId,
+            @RequestBody RetirementAccountDto.Request request) {
         User user = findUserOrThrow(userId);
 
         RetirementAccount account = new RetirementAccount(
-            user,
-            request.getName(),
-            request.getProvider(),
-            request.getBalance(),
-            request.getMonthlyContribution(),
-            request.getEmployerMatch(),
-            request.getExpectedReturnRate()
-        );
+                user,
+                request.getName(),
+                request.getProvider(),
+                request.getBalance(),
+                request.getMonthlyContribution(),
+                request.getEmployerMatch(),
+                request.getExpectedReturnRate());
 
-        retirementAccount saved = retirementAccountRepository.save(account);
+        RetirementAccount saved = retirementAccountRepository.save(account);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(saved));
     }
 
     // PUT update retirement account
     @PutMapping("/{id}")
-    public RetirementAccountDto.Response updateAccount(@PathVariable Long userId, @PathVariable Long id, @RequestBody RetirementAccountDto.Request request) {
+    public RetirementAccountDto.Response updateAccount(@PathVariable Long userId, @PathVariable Long id,
+            @RequestBody RetirementAccountDto.Request request) {
         findUserOrThrow(userId);
         RetirementAccount account = findRetirementAccountOrThrow(id, userId);
 
@@ -84,7 +86,6 @@ public class RetirementAccountController {
         retirementAccountRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private User findUserOrThrow(Long userId) {
         return userRepository.findById(userId)

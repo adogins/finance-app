@@ -26,7 +26,8 @@ public class LiabilityController {
 
     // Get all liabilities
     @GetMapping
-    public List<LiabilityDto.Response> getAllLiabilities(@PathVariable Long userId, @RequestParam(required = false) String type) {
+    public List<LiabilityDto.Response> getAllLiabilities(@PathVariable Long userId,
+            @RequestParam(required = false) String type) {
         findUserOrThrow(userId);
         if (type != null && !type.isBlank()) {
             return liabilityRepository.findByUserIdAndType(userId, type)
@@ -50,15 +51,16 @@ public class LiabilityController {
 
     // POST create liability
     @PostMapping
-    public ResponseEntity<LiabilityDto.Response> createLiability(@PathVariable Long userId, @RequestBody LiabilityDto.Request request) {
+    public ResponseEntity<LiabilityDto.Response> createLiability(@PathVariable Long userId,
+            @RequestBody LiabilityDto.Request request) {
         User user = findUserOrThrow(userId);
         Liability liability = new Liability(
-            user,
-            request.getName(),
-            request.getType(),
-            request.getBalance(),
-            request.getInterestRate()
-        );
+                user,
+                request.getName(),
+                request.getType(),
+                request.getBalance(),
+                request.getInterestRate(),
+                request.getMonthlyPayment());
 
         Liability saved = liabilityRepository.save(liability);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(saved));
@@ -66,7 +68,8 @@ public class LiabilityController {
 
     // PUT update liability
     @PutMapping("/{id}")
-    public LiabilityDto.Response updateLiability(@PathVariable Long userId, @PathVariable Long id, @RequestBody LiabilityDto.Request request) {
+    public LiabilityDto.Response updateLiability(@PathVariable Long userId, @PathVariable Long id,
+            @RequestBody LiabilityDto.Request request) {
         findUserOrThrow(userId);
         Liability liability = findLiabilityOrThrow(id, userId);
 
@@ -86,7 +89,6 @@ public class LiabilityController {
         liabilityRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private User findUserOrThrow(Long userId) {
         return userRepository.findById(userId)

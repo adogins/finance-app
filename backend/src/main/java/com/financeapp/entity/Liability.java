@@ -36,9 +36,11 @@ public class Liability {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Liability() {}
+    public Liability() {
+    }
 
-    public Liability(User user, String name, String type, BigDecimal balance, BigDecimal interestRate, BigDecimal monthlyPayment) {
+    public Liability(User user, String name, String type, BigDecimal balance, BigDecimal interestRate,
+            BigDecimal monthlyPayment) {
         this.user = user;
         this.name = name;
         this.type = type;

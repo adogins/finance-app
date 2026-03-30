@@ -1,91 +1,101 @@
-package com.financeapp.repository;
+package com.financeapp.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class IncomeDto {
-    public class IncomeDto {
 
-        public static class Request {
-            private BigDecimal amount;
-            private String source;
-            private LocalDate receivedAt;
+    public static class Request {
+        private BigDecimal amount;
+        private String source;
+        private LocalDate receivedAt;
 
-            public Request() {}
-
-            public BigDecimal getAmount() {
-                return amount;
-            }
-
-            public String getSource() {
-                return source;
-            }
-
-            public LocalDate getReceivedAt() {
-                return receivedAt;
-            }
-
-            public void setAmount(BigDecimal amount) {
-                this.amount = amount;
-            }
-
-            public void setSource(String source) {
-                this.source = source;
-            }
-
-            public void setReceivedAt(LocalDate receivedAt) {
-                this.receivedAt = receivedAt;
-            }
+        public Request() {
         }
 
-        public static class Response {
-            private Long id;
-            private BigDecimal amount;
-            private String source;
-            private LocalDate receivedAt;
-            private LocalDateTime createdAt;
+        public BigDecimal getAmount() {
+            return amount;
+        }
 
-            public Response() {}
+        public String getSource() {
+            return source;
+        }
 
-            public Long getId() {
-                return id;
-            }
+        public LocalDate getReceivedAt() {
+            return receivedAt;
+        }
 
-            public BigDecimal getAmount() {
-                return amount;
-            }
+        public void setAmount(BigDecimal amount) {
+            this.amount = amount;
+        }
 
-            public String getSource() {
-                return source;
-            }
+        public void setSource(String source) {
+            this.source = source;
+        }
 
-            public LocalDate getReceivedAt() {
-                return receivedAt;
-            }
+        public void setReceivedAt(LocalDate receivedAt) {
+            this.receivedAt = receivedAt;
+        }
+    }
 
-            public LocalDateTime getCreatedAt() {
-                return createdAt;
-            }
+    public static class Response {
+        private Long id;
+        private Long userId;
+        private BigDecimal amount;
+        private String source;
+        private LocalDate receivedAt;
+        private LocalDateTime createdAt;
 
-            public void setId(Long id) {
-                this.id = id;
-            }
+        public Response() {
+        }
 
-            public void setAmount(BigDecimal amount) {
-                this.amount = amount;
-            }
+        public Long getId() {
+            return id;
+        }
 
-            public void setSource(String source) {
-                this.source = source;
-            }
+        public Long getUserId() {
+            return userId;
+        }
 
-            public void setReceivedAt(LocalDate receivedAt) {
-                this.receivedAt = receivedAt;
-            }
+        public BigDecimal getAmount() {
+            return amount;
+        }
 
-            public void setCreatedAt(LocalDateTime createdAt) {
-                this.createdAt = createdAt;
+        public String getSource() {
+            return source;
+        }
+
+        public LocalDate getReceivedAt() {
+            return receivedAt;
+        }
+
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public void setAmount(BigDecimal amount) {
+            this.amount = amount;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
+
+        public void setReceivedAt(LocalDate receivedAt) {
+            this.receivedAt = receivedAt;
+        }
+
+        public void setCreatedAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
         }
     }
 }

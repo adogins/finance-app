@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "snapshots")
-pubilc class Snapshot {
+public class Snapshot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,9 +34,11 @@ pubilc class Snapshot {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    public Snapshot() {}
+    public Snapshot() {
+    }
 
-    public Snapshot(User user, LocalDate snapshotDate, BigDecimal totalAssets, BigDecimal totalLiabilities, BigDecimal netWorth) {
+    public Snapshot(User user, LocalDate snapshotDate, BigDecimal totalAssets, BigDecimal totalLiabilities,
+            BigDecimal netWorth) {
         this.user = user;
         this.snapshotDate = snapshotDate;
         this.totalAssets = totalAssets;

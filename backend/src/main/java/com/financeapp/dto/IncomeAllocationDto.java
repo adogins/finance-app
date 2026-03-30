@@ -12,9 +12,10 @@ public class IncomeAllocationDto {
         private BigDecimal allocationValue;
         private Integer priority;
 
-        public Request() {}
+        public Request() {
+        }
 
-        public String getCategory() { 
+        public String getCategory() {
             return category;
         }
 
@@ -56,18 +57,21 @@ public class IncomeAllocationDto {
         private Integer priority;
         private LocalDateTime createdAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;
         }
+
         public Long getUserId() {
             return userId;
         }
-        
+
         public String getCategory() {
             return category;
         }
+
         public AllocationType getAllocationType() {
             return allocationType;
         }
@@ -110,5 +114,6 @@ public class IncomeAllocationDto {
 
         public void setCreatedAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
+        }
     }
 }

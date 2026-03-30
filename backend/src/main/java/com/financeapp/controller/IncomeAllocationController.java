@@ -16,10 +16,11 @@ import java.util.List;
 @RequestMapping("/api/users/{user_id}/income-allocations")
 @CrossOrigin(origins = "http://localhost:3000")
 public class IncomeAllocationController {
-    private final incomeAllocationRepository incomeAllocationRepository;
+    private final IncomeAllocationRepository incomeAllocationRepository;
     private final UserRepository userRepository;
 
-    public IncomeAllocationController(IncomeAllocationRepository incomeAllocationRepository, UserRepository userRepository) {
+    public IncomeAllocationController(IncomeAllocationRepository incomeAllocationRepository,
+            UserRepository userRepository) {
         this.incomeAllocationRepository = incomeAllocationRepository;
         this.userRepository = userRepository;
     }
@@ -43,29 +44,30 @@ public class IncomeAllocationController {
 
     // POST create allocation
     @PostMapping
-    public ResponseEntity<IncomeAllocationDto.Response> createAllocation(@PathVariable Long userId, @RequestBody IncomeAllocationDto.Request request) {
+    public ResponseEntity<IncomeAllocationDto.Response> createAllocation(@PathVariable Long userId,
+            @RequestBody IncomeAllocationDto.Request request) {
         User user = findUserOrThrow(userId);
 
         if (incomeAllocationRepository.existsByUserIdAndCategory(userId, request.getCategory())) {
-            throw new IlleagalArgumentException(
-                "An allocation for category '" + request.getCategory() + "' already exists");
+            throw new IllegalArgumentException(
+                    "An allocation for category '" + request.getCategory() + "' already exists");
         }
 
         IncomeAllocation allocation = new IncomeAllocation(
-            user,
-            request.getCategory(),
-            request.getAllocationType(),
-            request.getAllocationValue(),
-            request.getPriority()
-        );
+                user,
+                request.getCategory(),
+                request.getAllocationType(),
+                request.getAllocationValue(),
+                request.getPriority());
 
-        IncomeAlocation saved = incomeAllocationRepository.save(allocation);
+        IncomeAllocation saved = incomeAllocationRepository.save(allocation);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(saved));
     }
 
     // PUT update allocation
     @PutMapping("/{id}")
-    public IncomeAllocationDto.Response updateAllocation(@PathVariable Long userId, @PathVariable Long id, @RequestBody IncomeAllocationDto.Request request) {
+    public IncomeAllocationDto.Response updateAllocation(@PathVariable Long userId, @PathVariable Long id,
+            @RequestBody IncomeAllocationDto.Request request) {
         findUserOrThrow(userId);
         IncomeAllocation allocation = findAllocationOrThrow(id, userId);
 
@@ -85,7 +87,6 @@ public class IncomeAllocationController {
         incomeAllocationRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private User findUserOrThrow(Long userId) {
         return userRepository.findById(userId)

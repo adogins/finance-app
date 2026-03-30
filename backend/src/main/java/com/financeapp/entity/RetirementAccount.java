@@ -23,8 +23,8 @@ public class RetirementAccount {
     @Column(length = 256)
     private String provider;
 
-    @Column(nullable = false, length = 100)
-    private String balance;
+    @Column(nullable = false, precision = 15, scale = 2)
+    private BigDecimal balance;
 
     @Column(name = "monthly_contribution", nullable = false, precision = 15, scale = 2)
     private BigDecimal monthlyContribution;
@@ -39,9 +39,12 @@ public class RetirementAccount {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public RetirementAccount() {}
+    public RetirementAccount() {
+    }
 
-    public RetirementAccount(User user, String name, String provider, String balance, BigDecimal monthlyContribution, BigDecimal employerMatch, BigDecimal expectedReturnRate) {
+    public RetirementAccount(User user, String name, String provider, BigDecimal balance,
+            BigDecimal monthlyContribution,
+            BigDecimal employerMatch, BigDecimal expectedReturnRate) {
         this.user = user;
         this.name = name;
         this.provider = provider;
@@ -67,7 +70,7 @@ public class RetirementAccount {
         return provider;
     }
 
-    public String getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
@@ -99,7 +102,7 @@ public class RetirementAccount {
         this.provider = provider;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -117,7 +120,8 @@ public class RetirementAccount {
 
     @Transient
     public BigDecimal getTotalMonthlyContribution() {
-        if (employerMatch == null) return monthlyContribution;
+        if (employerMatch == null)
+            return monthlyContribution;
         return monthlyContribution.add(employerMatch);
     }
 }

@@ -43,8 +43,7 @@ public class UserService {
                 request.getFirstName(),
                 request.getLastName(),
                 request.getDateOfBirth(),
-                passwordEncoder.encode(request.getPassword())
-        );
+                passwordEncoder.encode(request.getPassword()));
 
         return toResponse(userRepository.save(user));
     }

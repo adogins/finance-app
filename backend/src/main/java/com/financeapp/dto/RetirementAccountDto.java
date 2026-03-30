@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class RetirementAccountDto {
-    public statis class Request {
+    public static class Request {
         private String name;
         private String provider;
         private BigDecimal balance;
@@ -12,7 +12,8 @@ public class RetirementAccountDto {
         private BigDecimal employerMatch;
         private BigDecimal expectedReturnRate;
 
-        public Request() {}
+        public Request() {
+        }
 
         public String getName() {
             return name;
@@ -63,7 +64,7 @@ public class RetirementAccountDto {
         }
     }
 
-    public static class Repsonse {
+    public static class Response {
         private Long id;
         private Long userId;
         private String name;
@@ -74,7 +75,8 @@ public class RetirementAccountDto {
         private BigDecimal expectedReturnRate;
         private LocalDateTime updatedAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;

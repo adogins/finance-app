@@ -2,13 +2,13 @@ package com.financeapp.repository;
 
 import com.financeapp.entity.Asset;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springfromework.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface AssetRepository extends JpaRespository<Asset, Long> {
+public interface AssetRepository extends JpaRepository<Asset, Long> {
 
     // All assets for a user
     List<Asset> findByUserId(Long userId);

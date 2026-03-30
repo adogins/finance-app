@@ -1,8 +1,8 @@
-package come.financeapp.service;
+package com.financeapp.service;
 
-import com.financeapp.entity.RetirementProjection;
+import com.financeapp.entity.RetirementAccount;
 import com.financeapp.entity.User;
-import com.financeapp.repository.RetirementProjectionRepository;
+import com.financeapp.repository.RetirementAccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ import java.util.List;
  * Projects retirement savings growth using compound interest formula.
  * 
  * Formula (Future Value of annuity with existing balance):
- *  FV = P * (1 + r)^n + PMT * [((1 + r)^n - 1 - 1) / r]
+ * FV = P * (1 + r)^n + PMT * [((1 + r)^(n - 1) / r]
  * 
  * Where:
  * P = current balance
@@ -26,72 +26,72 @@ import java.util.List;
  * PMT = total monthly contribution
  * 
  * Retirement income is estimated using the 4% rule:
- *  Annual Income = Total Projected Balance * 0.04
- *  Monthly Income = Annual Income / 12
-  */
+ * Annual Income = Total Projected Balance * 0.04
+ * Monthly Income = Annual Income / 12
+ */
 @Service
 public class RetirementProjectionService {
-    
+
     // Default retirment age unless overridden
-    private statis final int DEFAULT_RETIREMENT_AGE = 65;
+    private static final int DEFAULT_RETIREMENT_AGE = 65;
 
     // 4% rule for sustainable annual withdrawal
     private static final double WITHDRAWAL_RATE = 0.04;
 
-    private final RetirementProjectionRepository retirementProjectionRepository;
+    private final RetirementAccountRepository retirementAccountRepository;
 
-    public RetirementProjectionService(RetirementProjectionRepository retirementProjectionRepository) {
-        this.retirementProjectionRepository = retirementProjectionRepository;
-    }
-}
-
-// Public API
-
-/**
- * Projects all retirement accounts for a user and returns a full
- * ProjectionSummary containing per-account projections, totals, 
- * and estimated monthly retirement income.
- * 
- * @param user          The user to project for
- * @param retirementAge target retirement age (defaults to 65 if null)
-*/
-public ProjectionSummary projectAll(User user, Integer retirementAge) {
-    int targetAge = (retirementAge != null) ? retirementAge : DEFAULT_RETIREMENT_AGE;
-    int monthsToRetirement = calculateMonthsToRetirement(user.getDateOfBirth(), targetAge);
-
-    if (monthsToRetirement <= 0) {
-        return ProjectionSummary.alreadyRetired(user.getAge(), targetAge);
+    public RetirementProjectionService(RetirementAccountRepository retirementAccountRepository) {
+        this.retirementAccountRepository = retirementAccountRepository;
     }
 
-    List<RetirementAccount> accounts = retirementAccountRepository.findByUserId(user.getId());
+    // Public API
 
-    List<AccountProjection> accountProjections = new ArrayList<>();
-    BigDecimal totalProjectedBalance = BigDecimal.ZERO;
+    /**
+     * Projects all retirement accounts for a user and returns a full
+     * ProjectionSummary containing per-account projections, totals,
+     * and estimated monthly retirement income.
+     * 
+     * @param user          The user to project for
+     * @param retirementAge target retirement age (defaults to 65 if null)
+     */
+    public ProjectionSummary projectAll(User user, Integer retirementAge) {
+        int targetAge = (retirementAge != null) ? retirementAge : DEFAULT_RETIREMENT_AGE;
+        int monthsToRetirement = calculateMonthsToRetirement(user.getDateOfBirth(), targetAge);
 
-    for (RetirementAccount account : accounts) {
-        AccountProjection projection = projectAccount(account, monthsToRetirement);
-        accountProjections.add(projection);
-        totalProjectedBalance = totalProjectedBalance.add(projection.getProjectedBalance());
+        if (monthsToRetirement <= 0) {
+            return ProjectionSummary.alreadyRetired(user.getAge(), targetAge);
+        }
+
+        List<RetirementAccount> accounts = retirementAccountRepository.findByUserId(user.getId());
+
+        List<AccountProjection> accountProjections = new ArrayList<>();
+        BigDecimal totalProjectedBalance = BigDecimal.ZERO;
+
+        for (RetirementAccount account : accounts) {
+            AccountProjection projection = projectAccount(account, monthsToRetirement);
+            accountProjections.add(projection);
+            totalProjectedBalance = totalProjectedBalance.add(projection.getProjectedBalance());
+        }
+
+        // Estimated monthly retirement income using 4% rule
+        BigDecimal annualRetirementIncome = totalProjectedBalance
+                .multiply(BigDecimal.valueOf(WITHDRAWAL_RATE))
+                .setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal monthlyRetirementIncome = annualRetirementIncome.divide(BigDecimal.valueOf(12), 2,
+                RoundingMode.HALF_UP);
+
+        int yearsToRetirement = monthsToRetirement / 12;
+
+        return new ProjectionSummary(
+                user.getAge(),
+                targetAge,
+                yearsToRetirement,
+                accountProjections,
+                totalProjectedBalance.setScale(2, RoundingMode.HALF_UP),
+                annualRetirementIncome,
+                monthlyRetirementIncome);
     }
-
-    // Estimated monthly retirement income using 4% rule
-    BigDecimal annualRetirementIncome = totalProjectedBalance
-            .multiply(BigDecimal.valueOf(WITHDRAWAL_RATE))
-            .setScale(2, RoundingMode.HALF_UP);
-    
-    BigDecimal monthlyRetirementIncome = annualRetirementIncome.divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_UP);
-    
-    int yearsToRetirement = monthsToRetirement / 12;
-
-    return new ProjectionSummary(
-        user.getAge(),
-        targetAge,
-        yearsToRetirement,
-        accountProjections,
-        totalProjectedBalance.sertScale(2, RoundingMode.HALF_UP),
-        annualRetirementIncome,
-        monthlyRetirementIncome
-    );
 
     // Projection logic
 
@@ -104,13 +104,14 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
         BigDecimal PMT = account.getTotalMonthlyContribution();
 
         // Use default 7% return is not set
-        double annaulRate = account.getExpectedReturnRate() != null ? account.getExpectedReturnRate().doubleValue() : 7.0;
-        double monthlyRate = annaulRate / 12.0 / 100.0;
+        double annualRate = account.getExpectedReturnRate() != null ? account.getExpectedReturnRate().doubleValue()
+                : 7.0;
+        double monthlyRate = annualRate / 12.0 / 100.0;
 
         List<YearlyValue> yearlyBreakdown = new ArrayList<>();
         BigDecimal runningBalance = P;
         int totalYears = totalMonths / 12;
-        
+
         for (int year = 1; year <= totalYears; year++) {
             // Apply 12 months of compound growth + contributions
             runningBalance = calculateFutureValue(runningBalance, PMT, monthlyRate, 12);
@@ -128,26 +129,25 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
 
         // Total contributed over the projection period (excluding growth)
         BigDecimal totalContributed = PMT
-            .multiply(BigDecimal.valueOf(totalMonths))
-            .add(P)
-            .setScale(2, RoundingMode.HALF_UP);
-            
+                .multiply(BigDecimal.valueOf(totalMonths))
+                .add(P)
+                .setScale(2, RoundingMode.HALF_UP);
+
         // Growth = projected balance - total contributed
         BigDecimal totalGrowth = projectedBalance.subtract(totalContributed)
-            .setScale(2, RoundingMode.HALF_UP);
+                .setScale(2, RoundingMode.HALF_UP);
 
         return new AccountProjection(
-            account.getId(),
-            account.getName(),
-            account.getProvider(),
-            account.getBalance(),
-            PMT,
-            annualRate,
-            projectedBalance,
-            totalContributed,
-            totalGrowth,
-            yearlyBreakdown
-        );
+                account.getId(),
+                account.getName(),
+                account.getProvider(),
+                account.getBalance(),
+                PMT,
+                annualRate,
+                projectedBalance,
+                totalContributed,
+                totalGrowth,
+                yearlyBreakdown);
     }
 
     /**
@@ -158,14 +158,14 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
      */
     private BigDecimal calculateFutureValue(BigDecimal P, BigDecimal PMT, double monthlyRate, int months) {
         if (monthlyRate == 0) {
-            retutn P.add(PMT.multiply(BigDecimal.valueOf(months)));
+            return P.add(PMT.multiply(BigDecimal.valueOf(months)));
         }
 
         MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
         double growthFactor = Math.pow(1 + monthlyRate, months);
         BigDecimal principalGrowth = P.multiply(BigDecimal.valueOf(growthFactor), mc);
         BigDecimal contributionGrowth = PMT.multiply(BigDecimal.valueOf((growthFactor - 1) / monthlyRate), mc);
-        
+
         return principalGrowth.add(contributionGrowth, mc);
     }
 
@@ -192,7 +192,9 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
         private final BigDecimal estimatedAnnualIncome;
         private final BigDecimal estimatedMonthlyIncome;
 
-        public ProkectionSummary(int currentAge, int retirementAge, int yearsToRetirement, List<AccountProjection> accounts, BigDecimal totalProjectedBalance, BigDecimal estimatedAnnualIncome, BigDecimal estimatedMonthlyIncome) {
+        public ProjectionSummary(int currentAge, int retirementAge, int yearsToRetirement,
+                List<AccountProjection> accounts, BigDecimal totalProjectedBalance, BigDecimal estimatedAnnualIncome,
+                BigDecimal estimatedMonthlyIncome) {
             this.currentAge = currentAge;
             this.retirementAge = retirementAge;
             this.yearsToRetirement = yearsToRetirement;
@@ -204,34 +206,39 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
 
         public static ProjectionSummary alreadyRetired(int currentAge, int retirementAge) {
             return new ProjectionSummary(
-                currentAge,
-                retirementAge,
-                0,
-                new ArrayList<>(),
-                BigDecimal.ZERO,
-                BigDecimal.ZERO,
-                BigDecimal.ZERO
-            );
+                    currentAge,
+                    retirementAge,
+                    0,
+                    new ArrayList<>(),
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO);
         }
 
         public int getCurrentAge() {
             return currentAge;
         }
+
         public int getRetirementAge() {
             return retirementAge;
         }
+
         public int getYearsToRetirement() {
             return yearsToRetirement;
         }
+
         public List<AccountProjection> getAccounts() {
             return accounts;
         }
+
         public BigDecimal getTotalProjectedBalance() {
             return totalProjectedBalance;
         }
+
         public BigDecimal getEstimatedAnnualIncome() {
             return estimatedAnnualIncome;
         }
+
         public BigDecimal getEstimatedMonthlyIncome() {
             return estimatedMonthlyIncome;
         }
@@ -252,7 +259,9 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
         private final BigDecimal totalGrowth;
         private final List<YearlyValue> yearlyBreakdown;
 
-        public AccountProjection(Long accountId, String accountName, String provider, BigDecimal currentBalance, BigDecimal totalMonthlyContribution, double annualReturnRate, BigDecimal projectedBalance, BigDecimal totalContributed, BigDecimal totalGrowth, List<YearlyValue> yearlyBreakdown) {
+        public AccountProjection(Long accountId, String accountName, String provider, BigDecimal currentBalance,
+                BigDecimal totalMonthlyContribution, double annualReturnRate, BigDecimal projectedBalance,
+                BigDecimal totalContributed, BigDecimal totalGrowth, List<YearlyValue> yearlyBreakdown) {
             this.accountId = accountId;
             this.accountName = accountName;
             this.provider = provider;
@@ -268,32 +277,59 @@ public ProjectionSummary projectAll(User user, Integer retirementAge) {
         public Long getAccountId() {
             return accountId;
         }
+
         public String getAccountName() {
             return accountName;
         }
+
         public String getProvider() {
             return provider;
         }
+
         public BigDecimal getCurrentBalance() {
             return currentBalance;
         }
-        public BigDecimal getMonthlyContribution() {
-            return monthlyContribution;
+
+        public BigDecimal getTotalMonthlyContribution() {
+            return totalMonthlyContribution;
         }
+
         public double getAnnualReturnRate() {
             return annualReturnRate;
         }
+
         public BigDecimal getProjectedBalance() {
             return projectedBalance;
         }
+
         public BigDecimal getTotalContributed() {
             return totalContributed;
         }
+
         public BigDecimal getTotalGrowth() {
             return totalGrowth;
         }
+
         public List<YearlyValue> getYearlyBreakdown() {
             return yearlyBreakdown;
+        }
+    }
+
+    public static class YearlyValue {
+        private final int year;
+        private final BigDecimal balance;
+
+        public YearlyValue(int year, BigDecimal balance) {
+            this.year = year;
+            this.balance = balance;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public BigDecimal getBalance() {
+            return balance;
         }
     }
 }

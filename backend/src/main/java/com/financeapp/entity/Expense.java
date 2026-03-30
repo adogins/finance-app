@@ -30,18 +30,19 @@ public class Expense {
     @Column(name = "spent_at", nullable = false)
     private LocalDate spentAt;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    public Expense() {}
+    public Expense() {
+    }
 
-    public Expense(User user, BigDecimal amount, String category, String description, LocalDate spentAt, LocalDateTime createdAt) {
+    public Expense(User user, BigDecimal amount, String category, String description, LocalDate spentAt) {
         this.user = user;
         this.amount = amount;
         this.category = category;
         this.description = description;
         this.spentAt = spentAt;
-        this.createdAt = createdAt;
     }
 
     public Long getId() {

@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface IncomeAllocationRepository extends JpaRepository<IncomeAllocation, Long> {
 
-    // All income allocations for a user ordered by priority (lowest number = highest priority)
+    // All income allocations for a user ordered by priority (lowest number =
+    // highest priority)
     List<IncomeAllocation> findByUserIdOrderByPriorityAsc(Long userId);
 
     // Income allocations by type

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface IncomeRepository extends JvaRepository<Income, Long> {
+public interface IncomeRepository extends JpaRepository<Income, Long> {
 
     // All incom entries for a user
     List<Income> findByUserId(Long userId);
@@ -22,5 +22,6 @@ public interface IncomeRepository extends JvaRepository<Income, Long> {
 
     // Sum of all income for a user within a date range
     @Query("SELECT COALESCE(SUM(i.amount), 0) FROM Income i WHERE i.user.id = :userId AND i.receivedAt BETWEEN :from AND :to")
-    BigDecimal sumByUserIdAndDateRange(@Param("userId") Long userId, @Param("from") LocalDate from, @Param("to") LocalDate to);
+    BigDecimal sumByUserIdAndDateRange(@Param("userId") Long userId, @Param("from") LocalDate from,
+            @Param("to") LocalDate to);
 }

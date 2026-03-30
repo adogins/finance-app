@@ -1,11 +1,11 @@
-package com.finance.controller;
+package com.financeapp.controller;
 
 import com.financeapp.entity.User;
-import com.finance.repository.UserRepository;
+import com.financeapp.repository.UserRepository;
 import com.financeapp.service.FinanceRatioService;
 import com.financeapp.service.FinanceRatioService.RatioResult;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframe.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 

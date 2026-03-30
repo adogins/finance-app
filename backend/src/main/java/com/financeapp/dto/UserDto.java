@@ -12,12 +12,13 @@ public class UserDto {
         private LocalDate dateOfBirth;
         private String password;
 
-        public Request() {}
+        public Request() {
+        }
 
         public String getEmail() {
             return email;
         }
-        
+
         public String getFirstName() {
             return firstName;
         }
@@ -55,11 +56,12 @@ public class UserDto {
         }
     }
 
-    public statuc class LoginRequest {
+    public static class LoginRequest {
         private String email;
         private String password;
 
-        public LoginRequest() {}
+        public LoginRequest() {
+        }
 
         public String getEmail() {
             return email;
@@ -78,18 +80,19 @@ public class UserDto {
         }
     }
 
-    public static class Response { 
+    public static class Response {
         private Long id;
         private String email;
         private String firstName;
-        private String lastName;    
+        private String lastName;
         private String fullName;
         private LocalDate dateOfBirth;
         private int age;
         private String ageBracket;
         private LocalDateTime createdAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;
@@ -162,4 +165,5 @@ public class UserDto {
         public void setCreatedAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
         }
+    }
 }

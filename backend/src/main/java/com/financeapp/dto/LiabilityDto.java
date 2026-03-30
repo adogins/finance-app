@@ -11,12 +11,13 @@ public class LiabilityDto {
         private BigDecimal interestRate;
         private BigDecimal monthlyPayment;
 
-        public Request() {}
+        public Request() {
+        }
 
         public String getName() {
             return name;
         }
-        
+
         public String getType() {
             return type;
         }
@@ -64,7 +65,8 @@ public class LiabilityDto {
         private BigDecimal monthlyPayment;
         private LocalDateTime updatedAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;

@@ -8,8 +8,11 @@ import com.financeapp.repository.LiabilityRepository;
 import com.financeapp.repository.RetirementAccountRepository;
 import com.financeapp.repository.SnapshotRepository;
 import com.financeapp.repository.UserRepository;
-import org.framework.http.HttpStatus;
-import org.framework.http.ResponseEntity;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -20,13 +23,15 @@ import java.util.List;
 @RequestMapping("/api/users/{userId}/snapshots")
 @CrossOrigin(origins = "http://localhost:3000")
 public class SnapshotController {
-    private final SnapshortRepository snapshotRepository;
+    private final SnapshotRepository snapshotRepository;
     private final UserRepository userRepository;
     private final AssetRepository assetRepository;
     private final LiabilityRepository liabilityRepository;
     private final RetirementAccountRepository retirementAccountRepository;
 
-    public SnapshotController(SnapshotRepository snapshotRepository, UserRepository userRepository, AssetRepository assetRepository, LiabilityRepository liabilityRepository, RetirementAccountRepository retirementAccountRepository) {
+    public SnapshotController(SnapshotRepository snapshotRepository, UserRepository userRepository,
+            AssetRepository assetRepository, LiabilityRepository liabilityRepository,
+            RetirementAccountRepository retirementAccountRepository) {
         this.snapshotRepository = snapshotRepository;
         this.userRepository = userRepository;
         this.assetRepository = assetRepository;
@@ -46,7 +51,7 @@ public class SnapshotController {
 
     // GET latest snapshot
     @GetMapping("/latest")
-    public SnapshotDto.Response getLatestSnapshot(@PathVariable Long userid) {
+    public SnapshotDto.Response getLatestSnapshot(@PathVariable Long userId) {
         findUserOrThrow(userId);
         return snapshotRepository.findTopByUserIdOrderBySnapshotDateDesc(userId)
                 .map(this::toResponse)
@@ -65,11 +70,11 @@ public class SnapshotController {
         }
 
         // Sum all asset balances including retirement accounts
-        BigDecimal totalAssets = assetRepository.sumBalancesByUserId(userId)
-                .add(retirementAccountRepository.sumBalancesByUserId(userId));
+        BigDecimal totalAssets = assetRepository.sumBalanceByUserId(userId)
+                .add(retirementAccountRepository.sumBalanceByUserId(userId));
 
         // Sum all liability balances
-        BigDecimal totalLiabilities = liabilityRepository.sumBalancesByUserId(userId);
+        BigDecimal totalLiabilities = liabilityRepository.sumBalanceByUserId(userId);
 
         // net worth = total assets - total liabilities
         BigDecimal netWorth = totalAssets.subtract(totalLiabilities);
@@ -87,13 +92,12 @@ public class SnapshotController {
         findUserOrThrow(userId);
         Snapshot snapshot = snapshotRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Snapshot not found with id: " + id));
-        if (!snapshot.getuser().getId().equals(userId)) {
+        if (!snapshot.getUser().getId().equals(userId)) {
             throw new EntityNotFoundException("Snapshot not found with id: " + id);
         }
         snapshotRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private User findUserOrThrow(Long userId) {
         return userRepository.findById(userId)

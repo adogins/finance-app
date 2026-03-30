@@ -23,14 +23,15 @@ public class Asset {
     @Column(nullable = false, length = 100)
     private String type;
 
-    @Column(nullable = false, precision = 15, scale, 2)
+    @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal balance;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Asset() {}
+    public Asset() {
+    }
 
     public Asset(User user, String name, String type, BigDecimal balance) {
         this.user = user;

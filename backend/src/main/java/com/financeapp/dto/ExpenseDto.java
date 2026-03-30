@@ -1,59 +1,64 @@
 package com.financeapp.dto;
 
-import math.BigDecimal;
-import java.time.Local;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ExpenseDto {
-    private BigDecimal amount;
-    private String category;
-    private String description;
-    private LocalDate spentAt;
 
-    public Request() {}
+    public static class Request {
+        private BigDecimal amount;
+        private String category;
+        private String description;
+        private LocalDate spentAt;
 
-    BigDecimal getAmount() {
-        return amount;
-    }
-    
-    public String getCategory() {
-        return category;
-    }
+        public Request() {
+        }
 
-    public String getDescription() {
-        return description;
-    }
+        public BigDecimal getAmount() {
+            return amount;
+        }
 
-    public LocalDate getSpentAt() {
-        return spentAt;
-    }
+        public String getCategory() {
+            return category;
+        }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+        public String getDescription() {
+            return description;
+        }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+        public LocalDate getSpentAt() {
+            return spentAt;
+        }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+        public void setAmount(BigDecimal amount) {
+            this.amount = amount;
+        }
 
-    public void setSpentAt(LocalDate spentAt) {
-        this.spentAt = spentAt;
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setSpentAt(LocalDate spentAt) {
+            this.spentAt = spentAt;
+        }
     }
 
     public static class Response {
         private Long id;
-        private Ling userId;
+        private Long userId;
         private BigDecimal amount;
         private String category;
         private String description;
         private LocalDate spentAt;
         private LocalDateTime createdAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;

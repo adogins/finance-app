@@ -2,6 +2,7 @@ package com.financeapp.controller;
 
 import com.financeapp.dto.ExpenseDto;
 import com.financeapp.entity.Expense;
+import com.financeapp.entity.User;
 import com.financeapp.repository.ExpenseRepository;
 import com.financeapp.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{userId}/expenses")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:5173" })
 public class ExpenseController {
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
@@ -25,7 +26,8 @@ public class ExpenseController {
 
     // GET all expenses
     @GetMapping
-    public List<ExpenseDto.Response> getAllExpense(@PathVariable Long userId, @RequestParam(required = false) String category) {
+    public List<ExpenseDto.Response> getAllExpense(@PathVariable Long userId,
+            @RequestParam(required = false) String category) {
         findUserOrThrow(userId);
 
         if (category != null && !category.isBlank()) {
@@ -50,16 +52,12 @@ public class ExpenseController {
 
     // POST create expense
     @PostMapping
-    public ResponseEntity<ExpenseDto.Response> createExpense(@PathVariable Long userId, @RequestBody ExpenseDto.Request request) {
+    public ResponseEntity<ExpenseDto.Response> createExpense(@PathVariable Long userId,
+            @RequestBody ExpenseDto.Request request) {
         User user = findUserOrThrow(userId);
 
-        Expense expense = new Expense(
-                user,
-                request.getAmount(),
-                request.getCategory(),
-                request.getDescription(),
-                request.getSpentAt()
-        );
+        Expense expense = new Expense(user, request.getAmount(), request.getCategory(), request.getDescription(),
+                request.getSpentAt());
 
         Expense saved = expenseRepository.save(expense);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(saved));
@@ -67,18 +65,18 @@ public class ExpenseController {
 
     // PUT update expense
     @PutMapping("/{id}")
-    public ExpenseDto.Response updateExpense(@PathVariable Long userId                                          
-                                             @PathVariable Long id,
-                                             @RequestBody ExpenseDto.Request request) {
-    findUserOrThrow(userId);
-    Expense expense = findExpenseOrThrow(id, userId);
+    public ExpenseDto.Response updateExpense(@PathVariable Long userId,
+            @PathVariable Long id,
+            @RequestBody ExpenseDto.Request request) {
+        findUserOrThrow(userId);
+        Expense expense = findExpenseOrThrow(id, userId);
 
-    expsense.setAmount(request.getAmount());
-    expense.setCategory(request.getCategory());
-    expense.setDescription(request.getDescription());
-    expense.setSpentAt(request.getSpentAt());
+        expense.setAmount(request.getAmount());
+        expense.setCategory(request.getCategory());
+        expense.setDescription(request.getDescription());
+        expense.setSpentAt(request.getSpentAt());
 
-    return toResponse(expenseRepository.save(expense));
+        return toResponse(expenseRepository.save(expense));
     }
 
     // DELETE expense
@@ -89,7 +87,6 @@ public class ExpenseController {
         expenseRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private User findUserOrThrow(Long userId) {
         return userRepository.findById(userId)

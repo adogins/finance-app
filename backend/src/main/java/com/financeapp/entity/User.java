@@ -33,14 +33,15 @@ public class User {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String email, String firstName, String lastName, LocalDate dateOfBirth) {
+    public User(String email, String firstName, String lastName, LocalDate dateOfBirth, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-        this.passwordHash = passwordHash;
+        this.passwordHash = password;
     }
 
     public Long getId() {
@@ -103,11 +104,16 @@ public class User {
     @Transient
     public String getAgeBracket() {
         int age = getAge();
-        if (age < 30) return "20s";
-        else if (age < 40) return "30s";
-        else if (age < 50) return "40s";
-        else if (age < 60) return "50s";
-        else return "60+";
+        if (age < 30)
+            return "20s";
+        else if (age < 40)
+            return "30s";
+        else if (age < 50)
+            return "40s";
+        else if (age < 60)
+            return "50s";
+        else
+            return "60+";
     }
 
     @Transient

@@ -23,3 +23,4 @@ public interface SnapshotRepository extends JpaRepository<Snapshot, Long> {
 
     // Check if a snapshot already exists for a given date
     boolean existsByUserIdAndSnapshotDate(Long userId, LocalDate snapshotDate);
+}

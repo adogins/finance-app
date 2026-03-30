@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface LiabilityRepository extends JpaRepository<Liability, Long> {
-    
+
     // All liabilities for a user
     List<Liability> findByUserId(Long userId);
 
@@ -24,3 +24,4 @@ public interface LiabilityRepository extends JpaRepository<Liability, Long> {
     // Only includes liabilities where monthly_payment has been set
     @Query("SELECT COALESCE(SUM(l.monthlyPayment), 0) FROM Liability l WHERE l.user.id = :userId AND l.monthlyPayment IS NOT NULL")
     BigDecimal sumMonthlyPaymentsByUserId(@Param("userId") Long userId);
+}

@@ -9,7 +9,8 @@ public class AssetDto {
         private String type;
         private BigDecimal balance;
 
-        public Request() {}
+        public Request() {
+        }
 
         public String getName() {
             return name;
@@ -44,7 +45,8 @@ public class AssetDto {
         private BigDecimal balance;
         private LocalDateTime updatedAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;

@@ -14,7 +14,8 @@ public class SnapshotDto {
         private BigDecimal netWorth;
         private LocalDateTime createdAt;
 
-        public Response() {}
+        public Response() {
+        }
 
         public Long getId() {
             return id;
@@ -34,7 +35,7 @@ public class SnapshotDto {
 
         public BigDecimal getTotalLiabilities() {
             return totalLiabilities;
-        }   
+        }
 
         public BigDecimal getNetWorth() {
             return netWorth;

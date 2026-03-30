@@ -25,13 +25,13 @@ public class IncomeController {
     }
 
     // GET all income for user
-    @GETMapping
-    public List<IncomeDto.Repsonse> getAllIncome(@PathVariable Long userId) {
+    @GetMapping
+    public List<IncomeDto.Response> getAllIncome(@PathVariable Long userId) {
         findUserOrThrow(userId);
         return incomeRepository.findByUserIdOrderByReceivedAtDesc(userId)
                 .stream()
                 .map(this::toResponse)
-                ,toList();
+                .toList();
     }
 
     // GET single income entry
@@ -43,15 +43,15 @@ public class IncomeController {
 
     // POST create income entry
     @PostMapping
-    public ResponseEntity<IncomeDto.Response> createIncome(@PathVariable Long userId, @RequestBody IncomeDto.Request request) {
+    public ResponseEntity<IncomeDto.Response> createIncome(@PathVariable Long userId,
+            @RequestBody IncomeDto.Request request) {
         User user = findUserOrThrow(userId);
 
         Income income = new Income(
                 user,
                 request.getAmount(),
                 request.getSource(),
-                request.getReceivedAt()
-        );
+                request.getReceivedAt());
 
         Income saved = incomeRepository.save(income);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(saved));
@@ -59,7 +59,8 @@ public class IncomeController {
 
     // PUT update income entry
     @PutMapping("/{id}")
-    public IncomeDto.Response updateIncome(@PathVariable Long userId, @PathVariable Long id, @RequestBody IncomeDto.Request request) {
+    public IncomeDto.Response updateIncome(@PathVariable Long userId, @PathVariable Long id,
+            @RequestBody IncomeDto.Request request) {
         findUserOrThrow(userId);
         Income income = findIncomeOrThrow(id, userId);
 
@@ -79,7 +80,6 @@ public class IncomeController {
         return ResponseEntity.noContent().build();
     }
 
-
     private User findUserOrThrow(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
@@ -96,7 +96,7 @@ public class IncomeController {
 
     private IncomeDto.Response toResponse(Income income) {
         IncomeDto.Response response = new IncomeDto.Response();
-        reponse.setId(income.getId());
+        response.setId(income.getId());
         response.setUserId(income.getUser().getId());
         response.setAmount(income.getAmount());
         response.setSource(income.getSource());

@@ -14,16 +14,18 @@ public class RetirementProjectionController {
     private final RetirementProjectionService retirementProjectionService;
     private final UserRepository userRepository;
 
-    public RetirementProjectionController(RetirementProjectionService retirementProjectionService, UserRepository userRepository) {
+    public RetirementProjectionController(RetirementProjectionService retirementProjectionService,
+            UserRepository userRepository) {
         this.retirementProjectionService = retirementProjectionService;
         this.userRepository = userRepository;
     }
 
     @GetMapping
-    public ProjectionSummary getProjection(@PathVariable Long userId, @RequestParam(required = false) Integer retirementAge) {
+    public ProjectionSummary getProjection(@PathVariable Long userId,
+            @RequestParam(required = false) Integer retirementAge) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-                
-        return retirementProjectionService.projectRetirement(user, retirementAge);
+
+        return retirementProjectionService.projectAll(user, retirementAge);
     }
 }

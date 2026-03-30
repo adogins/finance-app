@@ -28,7 +28,7 @@ public class IncomeAllocation {
     private BigDecimal allocationValue;
 
     @Column(nullable = false)
-    private Integre priority;
+    private Integer priority;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -38,9 +38,11 @@ public class IncomeAllocation {
         PERCENT, FIXED
     }
 
-    public IncomeAllocation() {}
+    public IncomeAllocation() {
+    }
 
-    public IncomeAllocation(User user, String category, AllocationType allocationType, BigDecimal allocationValue, Integer priority) {
+    public IncomeAllocation(User user, String category, AllocationType allocationType, BigDecimal allocationValue,
+            Integer priority) {
         this.user = user;
         this.category = category;
         this.allocationType = allocationType;
@@ -67,7 +69,7 @@ public class IncomeAllocation {
     public BigDecimal getAllocationValue() {
         return allocationValue;
     }
-    
+
     public Integer getPriority() {
         return priority;
     }

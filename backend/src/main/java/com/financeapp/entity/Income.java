@@ -31,7 +31,8 @@ public class Income {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    public Income() {}
+    public Income() {
+    }
 
     public Income(User user, BigDecimal amount, String source, LocalDate receivedAt) {
         this.user = user;
