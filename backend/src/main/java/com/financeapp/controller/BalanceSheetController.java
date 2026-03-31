@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/users/{userId}/balance-sheet")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BalanceSheetController {
     private final BalanceSheetService balanceSheetService;
     private final UserRepository userRepository;

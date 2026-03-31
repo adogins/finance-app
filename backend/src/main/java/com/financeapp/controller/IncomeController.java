@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{userId}/income")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class IncomeController {
     private final IncomeRepository incomeRepository;
     private final UserRepository userRepository;

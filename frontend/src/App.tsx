@@ -1,17 +1,17 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { AppProvider } from './context/AppContext';
-import Sidebar from './components/layout/Sidebar';
-import TopBar from './components/layout/TopBar';
-import ToastContainer from './components/ui/Toast';
-import AuthPage from './pages/Auth';
-import Dashboard from './pages/Dashboard';
-import Income from './pages/Income';
-import Expenses from './pages/Expenses';
-import NetWorth from './pages/NetWorth';
-import Retirement from './pages/Retirement';
-import BalanceSheet from './pages/BalanceSheet';
-import Allocations from './pages/Allocations';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AppProvider } from "./context/AppContext";
+import Sidebar from "./components/layout/Sidebar";
+import TopBar from "./components/layout/TopBar";
+import ToastContainer from "./components/ui/Toast";
+import AuthPage from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import Income from "./pages/Income";
+import Expenses from "./pages/Expenses";
+import NetWorth from "./pages/NetWorth";
+import Retirement from "./pages/Retirement";
+import BalanceSheet from "./pages/BalanceSheet";
+import Allocations from "./pages/Allocations";
 
 function AppLayout() {
   return (
@@ -21,13 +21,13 @@ function AppLayout() {
         <TopBar />
         <main className="flex-1 overflow-y-auto bg-slate-50">
           <Routes>
-            <Route path="/"              element={<Dashboard />} />
-            <Route path="/income"        element={<Income />} />
-            <Route path="/expenses"      element={<Expenses />} />
-            <Route path="/net-worth"     element={<NetWorth />} />
-            <Route path="/retirement"    element={<Retirement />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/income" element={<Income />} />
+            <Route path="/expenses" element={<Expenses />} />
+            <Route path="/net-worth" element={<NetWorth />} />
+            <Route path="/retirement" element={<Retirement />} />
             <Route path="/balance-sheet" element={<BalanceSheet />} />
-            <Route path="/allocations"   element={<Allocations />} />
+            <Route path="/allocations" element={<Allocations />} />
           </Routes>
         </main>
       </div>
@@ -37,7 +37,7 @@ function AppLayout() {
 }
 
 function Root() {
-  /*const { currentUser } = useAuth();
+  const { currentUser } = useAuth();
 
   if (!currentUser) {
     return <AuthPage />;
@@ -48,10 +48,8 @@ function Root() {
       <AppLayout />
     </AppProvider>
   );
-  */
 
-  const { currentUser } = useAuth();
-
+  /*
   // TEMP: skip auth for development
   const devUser = {
     id: 1,
@@ -70,6 +68,8 @@ function Root() {
       <AppLayout />
     </AppProvider>
   );
+
+  */
 }
 
 export default function App() {

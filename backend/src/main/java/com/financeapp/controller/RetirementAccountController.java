@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{userId}/retirement-accounts")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RetirementAccountController {
     private final RetirementAccountRepository retirementAccountRepository;
     private final UserRepository userRepository;

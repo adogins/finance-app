@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users/{userId}/ratios")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RatioController {
     public final FinanceRatioService financeRatioService;
     public final UserRepository userRepository;

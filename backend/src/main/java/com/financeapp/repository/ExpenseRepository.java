@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    
+
     // All expenses for a user ordered by most recent to least recent
     List<Expense> findByUserIdOrderBySpentAtDesc(Long userId);
 
@@ -21,14 +21,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByUserIdAndCategory(Long userId, String category);
 
     // Sum of all expenses for a user within a date range
-    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e WHERE e.user.id = :userId AND e.spentAT BETWEEN :from AND :to")
+    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e WHERE e.user.id = :userId AND e.spentAt BETWEEN :from AND :to")
     BigDecimal sumByUserIdAndDateRange(@Param("userId") Long userId,
-                                       @Param("from") LocalDate from,
-                                       @Param("to") LocalDate to);
+            @Param("from") LocalDate from,
+            @Param("to") LocalDate to);
 
     // Sum of expenses grouped by category for a date range
     @Query("SELECT e.category, COALESCE(SUM(e.amount), 0) FROM Expense e WHERE e.user.id = :userId AND e.spentAt BETWEEN :from AND :to GROUP BY e.category")
     List<Object[]> sumByCategoryAndDateRange(@Param("userId") Long userId,
-                                             @Param("from") LocalDate from,
-                                             @Param("to") LocalDate to);
-} 
+            @Param("from") LocalDate from,
+            @Param("to") LocalDate to);
+}

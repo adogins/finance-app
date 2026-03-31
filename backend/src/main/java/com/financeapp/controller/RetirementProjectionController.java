@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users/{userId}/retirement-projection")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RetirementProjectionController {
     private final RetirementProjectionService retirementProjectionService;
     private final UserRepository userRepository;

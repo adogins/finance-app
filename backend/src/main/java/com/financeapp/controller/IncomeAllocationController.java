@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{user_id}/income-allocations")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class IncomeAllocationController {
     private final IncomeAllocationRepository incomeAllocationRepository;
     private final UserRepository userRepository;
@@ -27,7 +27,7 @@ public class IncomeAllocationController {
 
     // GET all income allocations ordered by priority
     @GetMapping
-    public List<IncomeAllocationDto.Response> getAllAllocations(@PathVariable Long userId) {
+    public List<IncomeAllocationDto.Response> getAllAllocations(@PathVariable("user_id") Long userId) {
         findUserOrThrow(userId);
         return incomeAllocationRepository.findByUserIdOrderByPriorityAsc(userId)
                 .stream()
@@ -37,14 +37,14 @@ public class IncomeAllocationController {
 
     // GET single allocation
     @GetMapping("/{id}")
-    public IncomeAllocationDto.Response getAllocationById(@PathVariable Long userId, @PathVariable Long id) {
+    public IncomeAllocationDto.Response getAllocationById(@PathVariable("user_id") Long userId, @PathVariable Long id) {
         findUserOrThrow(userId);
         return toResponse(findAllocationOrThrow(id, userId));
     }
 
     // POST create allocation
     @PostMapping
-    public ResponseEntity<IncomeAllocationDto.Response> createAllocation(@PathVariable Long userId,
+    public ResponseEntity<IncomeAllocationDto.Response> createAllocation(@PathVariable("user_id") Long userId,
             @RequestBody IncomeAllocationDto.Request request) {
         User user = findUserOrThrow(userId);
 
@@ -66,7 +66,7 @@ public class IncomeAllocationController {
 
     // PUT update allocation
     @PutMapping("/{id}")
-    public IncomeAllocationDto.Response updateAllocation(@PathVariable Long userId, @PathVariable Long id,
+    public IncomeAllocationDto.Response updateAllocation(@PathVariable("user_id") Long userId, @PathVariable Long id,
             @RequestBody IncomeAllocationDto.Request request) {
         findUserOrThrow(userId);
         IncomeAllocation allocation = findAllocationOrThrow(id, userId);
@@ -81,7 +81,7 @@ public class IncomeAllocationController {
 
     // DELETE allocation
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAllocation(@PathVariable Long userId, @PathVariable Long id) {
+    public ResponseEntity<Void> deleteAllocation(@PathVariable("user_id") Long userId, @PathVariable Long id) {
         findUserOrThrow(userId);
         findAllocationOrThrow(id, userId);
         incomeAllocationRepository.deleteById(id);

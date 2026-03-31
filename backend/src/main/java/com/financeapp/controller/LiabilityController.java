@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{userId}/liabilities")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LiabilityController {
     private final LiabilityRepository liabilityRepository;
     private final UserRepository userRepository;

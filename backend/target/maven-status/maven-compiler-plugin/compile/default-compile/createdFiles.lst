@@ -42,7 +42,6 @@ com/financeapp/controller/RatioController.class
 com/financeapp/dto/AssetDto.class
 com/financeapp/controller/IncomeAllocationController.class
 com/financeapp/dto/IncomeAllocationDto$Response.class
-com/financeapp/HealthController.class
 com/financeapp/FinanceApplication.class
 com/financeapp/dto/IncomeAllocationDto.class
 com/financeapp/entity/RetirementAccount.class

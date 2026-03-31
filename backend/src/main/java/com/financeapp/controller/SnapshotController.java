@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{userId}/snapshots")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class SnapshotController {
     private final SnapshotRepository snapshotRepository;
     private final UserRepository userRepository;
