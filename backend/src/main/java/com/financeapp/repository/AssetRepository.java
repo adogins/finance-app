@@ -21,6 +21,6 @@ public interface AssetRepository extends JpaRepository<Asset, Long> {
     BigDecimal sumBalanceByUserId(@Param("userId") Long userId);
 
     // Sum if liquid assets only
-    @Query("SELECT COALESCE(SUM(a.balance), 0) FROM Asset a WHERE a.user.id = :userId AND a.type = 'Savings'")
+    @Query("SELECT COALESCE(SUM(a.balance), 0) FROM Asset a WHERE a.user.id = :userId AND a.type = 'Savings' OR a.type = 'Emergency Fund'")
     BigDecimal sumLiquidAssetsByUserId(@Param("userId") Long userId);
 }

@@ -74,6 +74,12 @@ public class FinanceRatioService {
         results.put("liquidityRatio", calculateLiquidityRatio(liquidAssets, monthlyExpenses, bracket));
         results.put("debtToAsset", calculateDebtToAsset(totalLiabilities, totalAssets, bracket));
 
+        BigDecimal netWorth = totalAssets.subtract(totalLiabilities);
+        results.put("netWorth",
+                new RatioResult("NetWorth", netWorth, 0, 0, "$",
+                        netWorth.compareTo(BigDecimal.ZERO) >= 0 ? "GOOD" : "CRITICAL", bracket,
+                        "Your total net worth = Total Assets - Total Liabilities"));
+
         return results;
     }
 

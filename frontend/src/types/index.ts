@@ -59,7 +59,7 @@ export interface ExpenseRequest {
 }
 
 // Assets
-export type AssetType = 'Savings' | 'Investment' | 'Property' | 'Retirement' | 'Other';
+export type AssetType = 'Savings' | 'Investment' | 'Property' | 'Retirement' | 'Emergency Fund' | 'Other';
 
 export interface AssetResponse {
   id: number;
