@@ -35,62 +35,57 @@ finance-app/
 ├── backend/
 │   ├── pom.xml
 │   └── src/
-│       ├── main/
-│       │   ├── java/com/financeapp/
-│       │   │   ├── FinanceApplication.java
-│       │   │   ├── config/
-│       │   │   │   └── PasswordEncoderConfig.java
-│       │   │   ├── controller/
-│       │   │   │   ├── UserController.java
-│       │   │   │   ├── IncomeController.java
-│       │   │   │   ├── ExpenseController.java
-│       │   │   │   ├── AssetController.java
-│       │   │   │   ├── LiabilityController.java
-│       │   │   │   ├── RetirementAccountController.java
-│       │   │   │   ├── IncomeAllocationController.java
-│       │   │   │   ├── SnapshotController.java
-│       │   │   │   ├── RatioController.java
-│       │   │   │   ├── RetirementProjectionController.java
-│       │   │   │   └── BalanceSheetController.java
-│       │   │   ├── dto/
-│       │   │   │   ├── UserDto.java
-│       │   │   │   ├── IncomeDto.java
-│       │   │   │   ├── ExpenseDto.java
-│       │   │   │   ├── AssetDto.java
-│       │   │   │   ├── LiabilityDto.java
-│       │   │   │   ├── RetirementAccountDto.java
-│       │   │   │   ├── IncomeAllocationDto.java
-│       │   │   │   └── SnapshotDto.java
-│       │   │   ├── entity/
-│       │   │   │   ├── User.java
-│       │   │   │   ├── Income.java
-│       │   │   │   ├── Expense.java
-│       │   │   │   ├── Asset.java
-│       │   │   │   ├── Liability.java
-│       │   │   │   ├── RetirementAccount.java
-│       │   │   │   ├── IncomeAllocation.java
-│       │   │   │   └── Snapshot.java
-│       │   │   ├── repository/
-│       │   │   │   ├── UserRepository.java
-│       │   │   │   ├── IncomeRepository.java
-│       │   │   │   ├── ExpenseRepository.java
-│       │   │   │   ├── AssetRepository.java
-│       │   │   │   ├── LiabilityRepository.java
-│       │   │   │   ├── RetirementAccountRepository.java
-│       │   │   │   ├── IncomeAllocationRepository.java
-│       │   │   │   └── SnapshotRepository.java
-│       │   │   └── service/
-│       │   │       ├── UserService.java
-│       │   │       ├── FinanceRatioService.java
-│       │   │       ├── RetirementProjectionService.java
-│       │   │       └── BalanceSheetService.java
-│       │   └── resources/
-│       │       └── application.properties
-│       └── test/
-│           └── java/com/financeapp/
-│               ├── controller/
-│               ├── service/
-│               └── repository/
+│       └── main/
+│           ├── java/com/financeapp/
+│           │   ├── FinanceApplication.java
+│           │   ├── config/
+│           │   │   └── PasswordEncoderConfig.java
+│           │   ├── controller/
+│           │   │   ├── UserController.java
+│           │   │   ├── IncomeController.java
+│           │   │   ├── ExpenseController.java
+│           │   │   ├── AssetController.java
+│           │   │   ├── LiabilityController.java
+│           │   │   ├── RetirementAccountController.java
+│           │   │   ├── IncomeAllocationController.java
+│           │   │   ├── SnapshotController.java
+│           │   │   ├── RatioController.java
+│           │   │   ├── RetirementProjectionController.java
+│           │   │   └── BalanceSheetController.java
+│           │   ├── dto/
+│           │   │   ├── UserDto.java
+│           │   │   ├── IncomeDto.java
+│           │   │   ├── ExpenseDto.java
+│           │   │   ├── AssetDto.java
+│           │   │   ├── LiabilityDto.java
+│           │   │   ├── RetirementAccountDto.java
+│           │   │   ├── IncomeAllocationDto.java
+│           │   │   └── SnapshotDto.java
+│           │   ├── entity/
+│           │   │   ├── User.java
+│           │   │   ├── Income.java
+│           │   │   ├── Expense.java
+│           │   │   ├── Asset.java
+│           │   │   ├── Liability.java
+│           │   │   ├── RetirementAccount.java
+│           │   │   ├── IncomeAllocation.java
+│           │   │   └── Snapshot.java
+│           │   ├── repository/
+│           │   │   ├── UserRepository.java
+│           │   │   ├── IncomeRepository.java
+│           │   │   ├── ExpenseRepository.java
+│           │   │   ├── AssetRepository.java
+│           │   │   ├── LiabilityRepository.java
+│           │   │   ├── RetirementAccountRepository.java
+│           │   │   ├── IncomeAllocationRepository.java
+│           │   │   └── SnapshotRepository.java
+│           │   └── service/
+│           │       ├── UserService.java
+│           │       ├── FinanceRatioService.java
+│           │       ├── RetirementProjectionService.java
+│           │       └── BalanceSheetService.java
+│           └── resources/
+│               └── application.properties
 │
 └── frontend/
     ├── index.html
@@ -104,10 +99,10 @@ finance-app/
         ├── main.tsx
         ├── index.css
         ├── api/
-        │   └── client.ts                 # Axios client for all endpoints
+        │   └── client.ts
         ├── context/
-        │   ├── AppContext.tsx             # User + toast state
-        │   └── AuthContext.tsx            # Auth + localStorage persistence
+        │   ├── AppContext.tsx
+        │   └── AuthContext.tsx
         ├── components/
         │   ├── charts/
         │   │   ├── BarChart.tsx
@@ -138,9 +133,9 @@ finance-app/
         │   ├── BalanceSheetPage.tsx
         │   └── AllocationsPage.tsx
         ├── types/
-        │   └── index.ts                  # All DTO types
+        │   └── index.ts
         └── utils/
-            └── format.ts                 # Currency, date, percent formatters
+            └── format.ts
 ```
 
 ---
@@ -278,5 +273,3 @@ const client = axios.create({
 - This app has no JWT tokens or session management, it is intended for local/personal use only and should not be deployed publicly without adding proper authentication middleware
 
 ---
-
-*Personal project built with the assistance of Claude by Anthropic.*
